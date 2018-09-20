@@ -44,6 +44,7 @@ def train_model(img_list, label_list):
     model.add(Dense(128, activation='linear'))
     model.add(LeakyReLU(alpha=0.1))
     model.add(Dense(5, activation='softmax'))
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Fit model to images
     model.fit(img_list, label_list, validation_split=0.2, epochs=10)
