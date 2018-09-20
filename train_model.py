@@ -50,6 +50,6 @@ def train_model(img_list, label_list):
     print('Model saved in directory')
 
 if __name__ == '__main__':
-    imgs = import_images('training_images')
+    imgs = import_images()
     labels = import_labels('training_labels.csv')
     train_model(imgs, labels)
