@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100), color_scale='grayscale')))
+        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100), grayscale=False)))
     return np.asarray(train_list)
 
 print('Importing labels...')
