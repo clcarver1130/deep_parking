@@ -30,7 +30,7 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(10, kernel_size=3, activation='relu', input_shape=(48,48, 1)), padding='valid')
+    model.add(Conv2D(10, kernel_size=3, activation='relu', input_shape=(48,48, 1)), padding='same')
     model.add(Flatten())
     model.add(Dense(5, activation='softmax'))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
