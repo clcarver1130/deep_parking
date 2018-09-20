@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100))))
+        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100), color_scale='grayscale')))
     return np.asarray(train_list)
 
 print('Importing labels...')
@@ -39,11 +39,11 @@ def train_model(img_list, label_list):
     # Fit model to images
     model.fit(img_list, label_list, validation_split=0.2, epochs=10)
 
-    print('Saving model...')
-    # Save model
-    with open('cnn_model.pkl', 'wb') as output:
-        pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
-    print('Model saved in directory')
+    # print('Saving model...')
+    # # Save model
+    # with open('cnn_model.pkl', 'wb') as output:
+    #     pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
+    # print('Model saved in directory')
 
 if __name__ == '__main__':
     imgs = import_images()
