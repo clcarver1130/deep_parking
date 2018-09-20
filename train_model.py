@@ -12,11 +12,11 @@ from keras.layers.advanced_activations import LeakyReLU
 import matplotlib.pyplot as plt
 
 print('Importing images...')
-def import_images(directory):
-    filelist = os.listdir(directory)
+def import_images():
+    filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append((img_to_array(load_img(directory + '{}'.format(file), target_size=(48,48))).reshape(-1, 48,48, 1))/255)
+        train_list.append((img_to_array(load_img('training_images/{}'.format(file), target_size=(48,48))).reshape(-1, 48,48, 1))/255)
     return train_list
 
 print('Importing labels...')
