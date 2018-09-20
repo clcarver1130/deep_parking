@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(300,300), color_mode='grayscale')))
+        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(200,200), color_mode='grayscale')))
     return np.asarray(train_list)
 
 print('Importing labels...')
@@ -31,19 +31,24 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3, 3),activation='linear',input_shape=(300,300,1),padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D((2, 2),padding='same'))
-    model.add(Conv2D(64, (3, 3), activation='linear',padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
-    model.add(Conv2D(128, (3, 3), activation='linear',padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
-    model.add(Flatten())
-    model.add(Dense(128, activation='linear'))
-    model.add(LeakyReLU(alpha=0.1))
+    model.add(Conv2D(32, (3, 3), input_shape=(1, 300, 300)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Conv2D(32, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Conv2D(64, (3, 3)))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+
+    model.add(Flatten())  # this converts our 3D feature maps to 1D feature vectors
+    model.add(Dense(64))
+    model.add(Activation('relu'))
+    model.add(Dropout(0.5))
     model.add(Dense(5, activation='softmax'))
+
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Fit model to images
