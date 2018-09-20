@@ -31,7 +31,7 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(32, (3, 3), input_shape=(1, 300, 300)))
+    model.add(Conv2D(32, (3, 3), input_shape=(1, 200, 200)))
     model.add(Activation('relu'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
