@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(500,500), color_mode='grayscale')))
+        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100), color_mode='grayscale')))
     return np.asarray(train_list)
 
 print('Importing labels...')
@@ -31,7 +31,8 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(100, kernel_size=3, activation='relu', input_shape=(500,500,1), padding='valid'))
+    model.add(Conv2D(50, kernel_size=3, activation='relu', input_shape=(100,100,1), padding='valid'))
+    model.add(Conv2D(50, kernel_size=3, activation='relu', input_shape=(100,100,1), padding='valid'))
     model.add(Flatten())
     model.add(Dense(5, activation='softmax'))
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
