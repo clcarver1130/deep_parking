@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(48,48))))
+        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(100,100))))
     return np.asarray(train_list)
 
 print('Importing labels...')
@@ -31,28 +31,19 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(32, kernel_size=(3,3) ,activation='linear',input_shape=(48,48,1),padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D((2, 2),padding='same'))
-    model.add(Conv2D(64, (3, 3), activation='linear',padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
-    model.add(Conv2D(128, (3, 3), activation='linear',padding='same'))
-    model.add(LeakyReLU(alpha=0.1))
-    model.add(MaxPooling2D(pool_size=(2, 2),padding='same'))
+    model.add(Conv2D(50, kernel_size=3, activation='relu', input_shape=(100,100,3), padding='valid'))
     model.add(Flatten())
-    model.add(Dense(128, activation='linear'))
-    model.add(LeakyReLU(alpha=0.1))
     model.add(Dense(5, activation='softmax'))
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Fit model to images
     model.fit(img_list, label_list, validation_split=0.2, epochs=10)
 
-    # print('Saving model...')
-    # # Save model
-    # with open('cnn_model.pkl', 'wb') as output:
-    #     pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
-    # print('Model saved in directory')
+    print('Saving model...')
+    # Save model
+    with open('cnn_model.pkl', 'wb') as output:
+        pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
+    print('Model saved in directory')
 
 if __name__ == '__main__':
     imgs = import_images()
