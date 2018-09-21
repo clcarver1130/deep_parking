@@ -14,10 +14,10 @@ import matplotlib.pyplot as plt
 
 print('Importing images...')
 def import_images():
-    filelist = os.listdir('training_images/')
+    filelist = os.listdir('training_images_2/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images/{}'.format(file), target_size=(200,200), color_mode='grayscale')))
+        train_list.append(img_to_array(load_img('training_images_2/{}'.format(file), target_size=(200,200), color_mode='grayscale')))
     return np.asarray(train_list)
 
 print('Importing labels...')
@@ -58,5 +58,5 @@ def train_model(img_list, label_list):
 
 if __name__ == '__main__':
     imgs = import_images()
-    labels = import_labels('training_labels.csv')
+    labels = import_labels('training_labels_2.csv')
     train_model(imgs, labels)
