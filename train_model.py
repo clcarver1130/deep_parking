@@ -17,7 +17,7 @@ def import_images():
     filelist = os.listdir('training_images_2/')
     train_list = []
     for file in filelist:
-        train_list.append(img_to_array(load_img('training_images_2/{}'.format(file), target_size=(200,200), color_mode='grayscale')))
+        train_list.append(img_to_array(load_img('training_images_2/{}'.format(file), target_size=(300,300), color_mode='grayscale')))
     train_list = np.asarray(train_list)
     train_list_reshaped = train_list.reshape(train_list.shape[0], train_list.shape[1], train_list.shape[2], 1).astype('float32')
     return train_list_reshaped/255
@@ -33,7 +33,7 @@ print('Fitting model...')
 def train_model(img_list, label_list):
     # Create and compile model
     model = Sequential()
-    model.add(Conv2D(32, (3, 3), input_shape=(200, 200, 1)))
+    model.add(Conv2D(32, (3, 3), input_shape=(300, 300, 1)))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
     model.add(Conv2D(32, (3, 3)))
@@ -50,13 +50,12 @@ def train_model(img_list, label_list):
     model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     # Fit model to images
-    model.fit(img_list, label_list, validation_split=0.2, epochs=10)
+    model.fit(img_list, label_list, validation_split=0.2, epochs=20)
 
-    # print('Saving model...')
-    # # Save model
-    # with open('cnn_model.pkl', 'wb') as output:
-    #     pickle.dump(model, output, pickle.HIGHEST_PROTOCOL)
-    # print('Model saved in directory')
+    # serialize model to YAML
+    model_yaml = model.to_yaml()
+    with open("model.yaml", "w") as yaml_file:
+        yaml_file.write(model_yaml)
 
 if __name__ == '__main__':
     imgs = import_images()
