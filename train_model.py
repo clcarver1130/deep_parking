@@ -18,8 +18,9 @@ def import_images():
     train_list = []
     for file in filelist:
         train_list.append(img_to_array(load_img('training_images_2/{}'.format(file), target_size=(200,200), color_mode='grayscale')))
-    train_list = np.asarray(train_list).reshape(train_list.shape[0], train_list.shape[1], train_list.shape[2], 1).astype('float32')
-    return train_list/255
+    train_list = np.asarray(train_list)
+    train_list_reshaped = train_list.reshape(train_list.shape[0], train_list.shape[1], train_list.shape[2], 1).astype('float32')
+    return train_list_reshaped/255
 
 print('Importing labels...')
 def import_labels(CSV):
