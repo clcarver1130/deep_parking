@@ -23,7 +23,7 @@ def import_images():
 print('Importing labels...')
 def import_labels(CSV):
     df = pd.read_csv(CSV)
-    labels = df['Label']
+    labels = df['Labels']
     labels_cat = to_categorical(labels)
     return labels_cat
 
